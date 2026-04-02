@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Sports Mall</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #0a0a0a;
+    color: white;
+}
+
+/* HERO */
+.hero {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+    url('https://images.unsplash.com/photo-1517649763962-0c623066013b');
+    background-size: cover;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    color: gold;
+}
+
+.btn {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    background: gold;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 8px;
+}
+
+/* SECTION */
+.section {
+    padding: 60px 20px;
+}
+
+.section h2 {
+    text-align: center;
+    color: gold;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+    gap: 20px;
+}
+
+.card {
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+/* CART */
+#cart {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background: #111;
+    padding: 20px;
+    overflow-y: auto;
+    border-left: 2px solid gold;
+}
+
+/* ========================= */
+/* PREMIUM UPGRADED SECTION */
+/* ========================= */
+
+.premium-container {
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+    padding: 20px 40px;
+}
+
+.premium-card {
+    min-width: 260px;
+    height: 180px;
+    padding: 20px;
+    border-radius: 20px;
+
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,215,0,0.4);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    transition: 0.4s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+}
+
+.premium-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(255,215,0,0.4);
+    border: 1px solid gold;
+}
+
+.premium-card h4 {
+    color: gold;
+    font-size: 1.2rem;
+}
+
+.price {
+    color: #00ffcc;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* CONTACT */
+.contact-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.contact-box {
+    width: 250px;
+    height: 150px;
+    background: linear-gradient(145deg, #1a1a1a, #111);
+    border: 1px solid gold;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* MAP */
+#map {
+    height: 400px;
+    width: 90%;
+    margin: auto;
+    border-radius: 15px;
+    border: 2px solid gold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+    <h1>🏟️ ELITE SPORTS MALL</h1>
+    <p>Indoor • Outdoor • Gaming • Premium Experience</p>
+    <button class="btn" onclick="scrollToSection()">Explore</button>
+</div>
+
+<!-- INDOOR -->
+<div class="section" id="indoor">
+    <h2>🎮 Indoor Games (10)</h2>
+    <div class="grid">
+        <div class="card">Chess</div>
+        <div class="card">Carrom</div>
+        <div class="card">Table Tennis</div>
+        <div class="card">Snooker</div>
+        <div class="card">Ludo</div>
+        <div class="card">Foosball</div>
+        <div class="card">Gaming PC</div>
+        <div class="card">PS5</div>
+        <div class="card">Board Games</div>
+        <div class="card">VR Gaming</div>
+    </div>
+</div>
+
+<!-- OUTDOOR -->
+<div class="section">
+    <h2>🏟️ Outdoor Games (10)</h2>
+    <div class="grid">
+        <div class="card">Football</div>
+        <div class="card">Basketball</div>
+        <div class="card">Cricket</div>
+        <div class="card">Badminton</div>
+        <div class="card">Tennis</div>
+        <div class="card">Volleyball</div>
+        <div class="card">Running Track</div>
+        <div class="card">Skating</div>
+        <div class="card">Archery</div>
+        <div class="card">Swimming</div>
+    </div>
+</div>
+
+<!-- PREMIUM SECTION (UPGRADED) -->
+<div class="section">
+    <h2>👕 Premium Jersey Collection</h2>
+
+    <p style="text-align:center; color:#00ffcc; font-weight:bold;">
+        🔥 Limited Time Offer: 10% OFF
+    </p>
+
+    <div class="premium-container">
+
+        <div class="premium-card">
+            <h4>Messi Signature Jersey</h4>
+            <p class="price">$55</p>
+            <button class="btn" onclick="addToCart('Messi Jersey',55)">Add to Cart</button>
+        </div>
+
+        <div class="premium-card">
+            <h4>MS Dhoni Edition</h4>
+            <p class="price">$50</p>
+            <button class="btn" onclick="addToCart('Dhoni Jersey',50)">Add to Cart</button>
+        </div>
+
+        <div class="premium-card">
+            <h4>NBA Elite Jersey</h4>
+            <p class="price">$60</p>
+            <button class="btn" onclick="addToCart('NBA Jersey',60)">Add to Cart</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- FACILITIES -->
+<div class="section">
+    <h2>🏋️ Extra Facilities</h2>
+    <div class="grid">
+        <div class="card">Gym Area</div>
+        <div class="card">Food Court</div>
+        <div class="card">Locker Room</div>
+        <div class="card">Parking</div>
+        <div class="card">Free WiFi</div>
+        <div class="card">VIP Lounge</div>
+        <div class="card">Live Screen</div>
+        <div class="card">First Aid</div>
+        <div class="card">Sports Shop</div>
+        <div class="card">Event Booking</div>
+    </div>
+</div>
+
+<!-- MAP -->
+<div class="section">
+    <h2>📍 Our Location (Baneshwor Chowk)</h2>
+    <div id="map"></div>
+</div>
+
+<!-- CONTACT -->
+<div class="section">
+    <h2>📞 Contact</h2>
+    <div class="contact-container">
+
+        <div class="contact-box">
+            <p>📧 bibekojhaofficial@gmail.com</p>
+            <button class="btn" onclick="email()">Email</button>
+        </div>
+
+        <div class="contact-box">
+            <p>📱 9848063910</p>
+            <button class="btn" onclick="whatsapp()">WhatsApp</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- CART -->
+<div id="cart">
+    <h3>🛒 Cart</h3>
+    <ul id="list"></ul>
+    <h3>Total: $<span id="total">0</span></h3>
+</div>
+
+<script>
+let cart = [];
+let total = 0;
+
+function addToCart(item, price) {
+    cart.push(item);
+    total += price;
+    update();
+}
+
+function update() {
+    let list = document.getElementById("list");
+    list.innerHTML = "";
+
+    cart.forEach(i => {
+        let li = document.createElement("li");
+        li.innerText = i;
+        list.appendChild(li);
+    });
+
+    document.getElementById("total").innerText = total;
+}
+
+function scrollToSection() {
+    document.getElementById("indoor").scrollIntoView({behavior:"smooth"});
+}
+
+function email() {
+    window.location.href = "mailto:bibekojhaofficial@gmail.com";
+}
+
+function whatsapp() {
+    window.open("https://wa.me/9848063910","_blank");
+}
+
+/* MAP - BANESHWOR CHOWK */
+var map = L.map('map').setView([27.6937, 85.3335], 15);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap'
+}).addTo(map);
+
+L.marker([27.6937, 85.3335]).addTo(map)
+    .bindPopup("📍 Baneshwor Chowk - Elite Sports Mall")
+    .openPopup();
+</script>
+
+</body>
+</html>
