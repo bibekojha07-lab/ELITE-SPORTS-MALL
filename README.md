@@ -1,1 +1,1 @@
-my-project
+my_elite_project
